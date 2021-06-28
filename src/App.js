@@ -7,8 +7,10 @@ import Detail from "./components/Detail";
 
 import Navigation from "./components/Navigation";
 import theme from "./theme";
+import { useEffect } from "react";
 
 function App(props) {
+  useEffect(() => {}, []);
   return (
     <Wrapper className="App">
       <MainDiv>

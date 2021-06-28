@@ -1,24 +1,31 @@
 import React from "react";
 import styled from "styled-components";
 import theme from "../theme";
+import CheckBoxIcon from "@material-ui/icons/CheckBox";
 
 const Note = (props) => {
   const dictionary = props.dictionary;
 
   return (
     <NoteWrapper>
-      <MarkWordDiv>🔴 Word :</MarkWordDiv>
+      <MarkWordDiv>
+        <CheckBoxIcon /> Word :
+      </MarkWordDiv>
       <WordDiv>{dictionary.word}</WordDiv>
-      <MarkWordDiv>🟢 Description :</MarkWordDiv>
+      <MarkWordDiv>
+        <CheckBoxIcon /> Description :
+      </MarkWordDiv>
       <WordDiv>{dictionary.description}</WordDiv>
-      <MarkWordDiv>🔵 Example : </MarkWordDiv>
+      <MarkWordDiv>
+        <CheckBoxIcon /> Example :
+      </MarkWordDiv>
       <WordDiv>{dictionary.example}</WordDiv>
     </NoteWrapper>
   );
 };
 
 const NoteWrapper = styled.div`
-  height: 300px;
+  height: 330px;
   font-weight: 600;
   margin: 10px 10px 10px 10px;
   display: flex;
@@ -30,6 +37,7 @@ const MarkWordDiv = styled.div`
   margin-bottom: 10px;
   color: ${theme.placeholerColor};
   display: flex;
+  align-items: center;
 `;
 
 const WordDiv = styled.div`

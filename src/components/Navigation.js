@@ -1,30 +1,21 @@
-import React, { useEffect, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import React from "react";
+import { Link, withRouter } from "react-router-dom";
 import styled from "styled-components";
 import HomeIcon from "@material-ui/icons/Home";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import theme from "../theme";
 
-const Navigation = () => {
-  let urlName = useHistory().location.pathname;
-  const [navName, setNavName] = useState("");
-
-  useEffect(() => {
-    if (urlName === "/") {
-      setNavName("Home");
-    } else {
-      setNavName("Data");
-    }
-  }, []);
-
+const Navigation = (props) => {
+  let urlName = props.location.pathname;
+  console.log(urlName);
   return (
     <>
-      <div>{navName}</div>
+      <div>{urlName === "/" ? "Home" : "Input"}</div>
       <IconDiv>
-        <EachLink to="/" navName={navName === "Home"}>
+        <EachLink to="/" urlName={urlName === "/"}>
           <HomeIcon />
         </EachLink>
-        <EachLink to="/add" navName={navName === "Data"}>
+        <EachLink to="/add" urlName={urlName !== "/"}>
           <AddCircleIcon />
         </EachLink>
       </IconDiv>
@@ -40,7 +31,7 @@ const IconDiv = styled.div`
 `;
 
 const EachLink = styled(Link)`
-  color: ${(props) => (props.navName ? theme.buttonColor : theme.fontColor)};
+  color: ${(props) => (props.urlName ? theme.buttonColor : theme.fontColor)};
 `;
 
-export default Navigation;
+export default withRouter(Navigation);
