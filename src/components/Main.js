@@ -2,7 +2,6 @@ import styled from "styled-components";
 import Note from "./Note";
 import React from "react";
 import { useEffect } from "react";
-
 import { useSelector } from "react-redux";
 import { useState } from "react";
 

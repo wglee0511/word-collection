@@ -39,10 +39,11 @@ export const actionCreate = (dictionary) => {
   };
 };
 
-export const actionUpload = (index) => {
+export const actionUpload = (index, dictionary) => {
   return {
     type: UPLOAD,
     index,
+    dictionary,
   };
 };
 
@@ -66,7 +67,13 @@ export default function reducer(state = initState, action = {}) {
       return { list: newDictionary };
     }
     case UPLOAD: {
-      return state;
+      const newDictionary = state.list.map((each, index) => {
+        if (index === parseInt(action.index)) {
+          return action.dictionary;
+        }
+        return each;
+      });
+      return { list: newDictionary };
     }
     case DELETE: {
       return state;

@@ -1,30 +1,61 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
+import { useDispatch, useSelector } from "react-redux";
+import { actionUpload } from "../redux/modules/dictionary";
+import { useParams } from "react-router-dom";
 
 const Detail = (props) => {
-  const dictionary = {
-    word: "dictionary",
-    description: "사전",
-    example: "사전을 본다",
+  const inputWord = useRef();
+  const inputDescription = useRef();
+  const inputExample = useRef();
+  const dispatch = useDispatch();
+  const index = useParams().index;
+  const dictionaryList = useSelector((state) => state.dictionary.list);
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    const dictionary = {
+      word: inputWord.current.value,
+      description: inputDescription.current.value,
+      example: inputExample.current.value,
+    };
+    dispatch(actionUpload(index, dictionary));
+    props.history.push("/");
   };
+
   return (
-    <NoteWrapper>
+    <NoteWrapper onSubmit={handleOnSubmit}>
       <MarkWordDiv>
-        <CheckBoxIcon /> Word : {dictionary.word}
+        <CheckBoxIcon /> Word : {dictionaryList[index].word}
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어를 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputWord}
+        placeholder="단어를 입력해 주세요."
+        required
+      />
       <MarkWordDiv>
-        <CheckBoxIcon /> Description : {dictionary.description}
+        <CheckBoxIcon /> Description : {dictionaryList[index].description}
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어 설명을 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputDescription}
+        placeholder="단어 설명을 입력해 주세요."
+        required
+      />
       <MarkWordDiv>
-        <CheckBoxIcon /> Example : {dictionary.example}
+        <CheckBoxIcon /> Example : {dictionaryList[index].example}
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어 예시를 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputExample}
+        placeholder="단어 예시를 입력해 주세요."
+        required
+      />
 
       <ButtonDiv>
         <SubmitButton>
