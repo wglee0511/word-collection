@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import CheckIcon from "@material-ui/icons/Check";
 
 const Add = (props) => {
   return (
@@ -18,7 +19,9 @@ const Add = (props) => {
         <CheckBoxIcon /> Example :
       </MarkWordDiv>
       <WordInput type="text" placeholder="단어 예시를 입력해 주세요." />
-      <SubmitButton>Submit</SubmitButton>
+      <SubmitButton>
+        <CheckIcon fontSize="large" />
+      </SubmitButton>
     </NoteWrapper>
   );
 };
@@ -56,22 +59,23 @@ const WordInput = styled.input`
 `;
 
 const SubmitButton = styled.button`
-  background-color: ${theme.buttonColor};
-  color: ${theme.fontColor};
+  background-color: ${theme.bgColor};
+  color: ${theme.buttonColor};
   font-size: 30px;
-  height: 75px;
+  height: 50px;
+  width: 50px;
   font-weight: 800;
   display: flex;
   justify-content: center;
   align-items: center;
   margin: 25px 15px 5px 15px;
   border-radius: 20px;
-  border: none;
+  border: 2px solid ${theme.buttonColor};
   cursor: pointer;
   transition: background-color 0.2s;
   &:hover {
-    background-color: ${theme.fontColor};
-    color: ${theme.buttonColor};
+    border: 2px solid ${theme.fontColor};
+    color: ${theme.fontColor};
   }
 `;
 

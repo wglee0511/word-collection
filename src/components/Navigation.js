@@ -13,10 +13,10 @@ const Navigation = (props) => {
       <div>{urlName === "/" ? "Home" : "Input"}</div>
       <IconDiv>
         <EachLink to="/" urlName={urlName === "/"}>
-          <HomeIcon />
+          <HomeIcon fontSize="large" />
         </EachLink>
         <EachLink to="/add" urlName={urlName !== "/"}>
-          <AddCircleIcon />
+          <AddCircleIcon fontSize="large" />
         </EachLink>
       </IconDiv>
     </>
@@ -24,7 +24,7 @@ const Navigation = (props) => {
 };
 
 const IconDiv = styled.div`
-  width: 55px;
+  width: 80px;
   display: flex;
   justify-content: space-between;
   align-items: center;

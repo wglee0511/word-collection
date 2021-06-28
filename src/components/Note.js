@@ -2,12 +2,19 @@ import React from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
+import { withRouter } from "react-router-dom";
 
 const Note = (props) => {
   const dictionary = props.dictionary;
+  const index = props.index;
+
+  const handleOnClick = () => {
+    console.log("click");
+    props.history.push("/detail/" + index);
+  };
 
   return (
-    <NoteWrapper>
+    <NoteWrapper onClick={handleOnClick}>
       <MarkWordDiv>
         <CheckBoxIcon /> Word :
       </MarkWordDiv>
@@ -31,6 +38,13 @@ const NoteWrapper = styled.div`
   display: flex;
   flex-direction: column;
   border-bottom: 1px solid ${theme.borderColor};
+  transition: background-color 0.3s;
+  transition: color 0.3s;
+  :hover {
+    cursor: pointer;
+    color: ${theme.buttonColor};
+    background-color: ${theme.buttonColor};
+  }
 `;
 const MarkWordDiv = styled.div`
   font-size: 15px;
@@ -51,4 +65,4 @@ const WordDiv = styled.div`
   border-radius: 10px;
 `;
 
-export default Note;
+export default withRouter(Note);

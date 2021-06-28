@@ -4,17 +4,31 @@ import React from "react";
 import { useEffect } from "react";
 
 const Main = (props) => {
-  const dictionary = {
-    word: "dictionary",
-    description: "사전",
-    example: "사전을 본다",
-  };
+  const dictionary = [
+    {
+      word: "dictionary",
+      description: "사전",
+      example: "사전을 본다",
+    },
+    {
+      word: "dictionary",
+      description: "사전",
+      example: "사전을 본다",
+    },
+    {
+      word: "dictionary",
+      description: "사전",
+      example: "사전을 본다",
+    },
+  ];
 
   useEffect(() => {}, []);
 
   return (
     <Wrapper>
-      <Note dictionary={dictionary} />
+      {dictionary.map((each, index) => {
+        return <Note dictionary={each} key={index} index={index} />;
+      })}
     </Wrapper>
   );
 };

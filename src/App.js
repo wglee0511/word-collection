@@ -8,11 +8,13 @@ import Detail from "./components/Detail";
 import Navigation from "./components/Navigation";
 import theme from "./theme";
 import { useEffect } from "react";
+import MetaScript from "./components/MetaScript";
 
 function App(props) {
   useEffect(() => {}, []);
   return (
     <Wrapper className="App">
+      <MetaScript />
       <MainDiv>
         <NavDiv>
           <Navigation />
@@ -29,8 +31,8 @@ function App(props) {
 }
 
 const Wrapper = styled.div`
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   background-color: ${theme.bgColor};
   color: ${theme.fontColor};
   display: flex;
