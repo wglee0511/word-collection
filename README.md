@@ -12,6 +12,8 @@
   - Styled-components
   - Redux
   - React-Redux
+  - React-router-dom
+  - React-helmet
 
 - Backend
   - Serverless
