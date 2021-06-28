@@ -14,6 +14,7 @@
   - React-Redux
   - React-router-dom
   - React-helmet
+  - Material-ui, icons
 
 - Backend
   - Serverless
