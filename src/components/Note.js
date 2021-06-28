@@ -9,7 +9,6 @@ const Note = (props) => {
   const index = props.index;
 
   const handleOnClick = () => {
-    console.log("click");
     props.history.push("/detail/" + index);
   };
 

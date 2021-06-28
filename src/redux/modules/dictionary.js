@@ -20,11 +20,6 @@ const initState = {
       description: "사전",
       example: "사전을 본다",
     },
-    {
-      word: "dictionary",
-      description: "사전",
-      example: "사전을 본다",
-    },
   ],
 };
 
@@ -67,7 +62,8 @@ export default function reducer(state = initState, action = {}) {
       return state;
     }
     case CREATE: {
-      return state;
+      const newDictionary = [action.dictionary, ...state.list];
+      return { list: newDictionary };
     }
     case UPLOAD: {
       return state;

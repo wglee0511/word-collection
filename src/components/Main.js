@@ -2,28 +2,17 @@ import styled from "styled-components";
 import Note from "./Note";
 import React from "react";
 import { useEffect } from "react";
-import { actionLoad } from "../redux/modules/dictionary";
-import { connect } from "react-redux";
+
+import { useSelector } from "react-redux";
 import { useState } from "react";
-
-const mapStateToProps = (state) => {
-  return {
-    dictionaryList: state.dictionary.list,
-  };
-};
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    load: () => dispatch(actionLoad()),
-  };
-};
 
 const Main = (props) => {
   const [dictionary, setDictionary] = useState([]);
+  const dictionaryList = useSelector((state) => state.dictionary.list);
+
   useEffect(() => {
-    props.load();
-    setDictionary([...props.dictionaryList]);
-  }, []);
+    setDictionary([...dictionaryList]);
+  }, [dictionary]);
 
   return (
     <Wrapper>
@@ -36,4 +25,4 @@ const Main = (props) => {
 
 const Wrapper = styled.div``;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Main);
+export default Main;

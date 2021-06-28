@@ -1,24 +1,54 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import theme from "../theme";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckIcon from "@material-ui/icons/Check";
+import { useDispatch } from "react-redux";
+import { actionCreate } from "../redux/modules/dictionary";
 
 const Add = (props) => {
+  const inputWord = useRef();
+  const inputDescription = useRef();
+  const inputExample = useRef();
+  const dispatch = useDispatch();
+
+  const handleOnSubmit = (event) => {
+    event.preventDefault();
+    const dictionary = {
+      word: inputWord.current.value,
+      description: inputDescription.current.value,
+      example: inputExample.current.value,
+    };
+    dispatch(actionCreate(dictionary));
+    props.history.push("/");
+  };
+
   return (
-    <NoteWrapper>
+    <NoteWrapper onSubmit={handleOnSubmit}>
       <MarkWordDiv>
         <CheckBoxIcon /> Word :
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어를 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputWord}
+        placeholder="단어를 입력해 주세요."
+      />
       <MarkWordDiv>
         <CheckBoxIcon /> Description :
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어 설명을 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputDescription}
+        placeholder="단어 설명을 입력해 주세요."
+      />
       <MarkWordDiv>
         <CheckBoxIcon /> Example :
       </MarkWordDiv>
-      <WordInput type="text" placeholder="단어 예시를 입력해 주세요." />
+      <WordInput
+        type="text"
+        ref={inputExample}
+        placeholder="단어 예시를 입력해 주세요."
+      />
       <SubmitButton>
         <CheckIcon fontSize="large" />
       </SubmitButton>
