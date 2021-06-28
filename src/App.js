@@ -4,14 +4,11 @@ import "./App.css";
 import Main from "./components/Main";
 import Add from "./components/Add";
 import Detail from "./components/Detail";
-
 import Navigation from "./components/Navigation";
 import theme from "./theme";
-import { useEffect } from "react";
 import MetaScript from "./components/MetaScript";
 
 function App(props) {
-  useEffect(() => {}, []);
   return (
     <Wrapper className="App">
       <MetaScript />
