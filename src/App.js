@@ -1,10 +1,10 @@
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import "./App.css";
 import Main from "./components/Main";
 import Add from "./components/Add";
 import Detail from "./components/Detail";
-import NotFound from "./components/NotFound";
+
 import Navigation from "./components/Navigation";
 import theme from "./theme";
 
@@ -19,7 +19,7 @@ function App(props) {
           <Route exact path="/" component={Main} />
           <Route exact path="/add" component={Add} />
           <Route exact path="/detail/:index" component={Detail} />
-          <Route path="*" component={NotFound} />
+          <Redirect from="*" to="/" />
         </Switch>
       </MainDiv>
     </Wrapper>

@@ -6,7 +6,7 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import theme from "../theme";
 
 const Navigation = () => {
-  const urlName = useHistory().location.pathname;
+  let urlName = useHistory().location.pathname;
   const [navName, setNavName] = useState("");
 
   useEffect(() => {
