@@ -7,8 +7,16 @@ import Detail from "./components/Detail";
 import Navigation from "./components/Navigation";
 import theme from "./theme";
 import MetaScript from "./components/MetaScript";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { actionLoadForFirestore } from "./redux/modules/dictionary";
 
 function App(props) {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(actionLoadForFirestore());
+  }, []);
+
   return (
     <Wrapper className="App">
       <MetaScript />

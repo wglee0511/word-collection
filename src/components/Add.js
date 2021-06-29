@@ -4,7 +4,7 @@ import theme from "../theme";
 import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import CheckIcon from "@material-ui/icons/Check";
 import { useDispatch } from "react-redux";
-import { actionCreate } from "../redux/modules/dictionary";
+import { actionCreateForFirestore } from "../redux/modules/dictionary";
 
 const Add = (props) => {
   const inputWord = useRef();
@@ -19,7 +19,7 @@ const Add = (props) => {
       description: inputDescription.current.value,
       example: inputExample.current.value,
     };
-    dispatch(actionCreate(dictionary));
+    dispatch(actionCreateForFirestore(dictionary));
     props.history.push("/");
   };
 

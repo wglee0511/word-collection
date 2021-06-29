@@ -3,6 +3,7 @@ import Note from "./Note";
 import React from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+
 import { useState } from "react";
 
 const Main = (props) => {
@@ -11,7 +12,7 @@ const Main = (props) => {
 
   useEffect(() => {
     setDictionary([...dictionaryList]);
-  }, [dictionary]);
+  }, [dictionaryList]);
 
   return (
     <Wrapper>

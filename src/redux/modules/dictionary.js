@@ -60,12 +60,42 @@ export const actionDelete = (index) => {
   };
 };
 
-// firestore middleware
+// firestore middleware action
+
+export const actionLoadForFirestore = () => {
+  return async function (dispatch) {
+    let newDictionary = [];
+    const getDictionary = await firestoreDB.get();
+    getDictionary.forEach((doc) => {
+      if (doc.exists) {
+        newDictionary = [{ id: doc.id, ...doc.data() }, ...newDictionary];
+      }
+    });
+    console.log(newDictionary.length);
+    dispatch(actionLoad(newDictionary));
+  };
+};
+
+export const actionCreateForFirestore = (dictionary) => {
+  return async function (dispatch) {
+    try {
+      const addToFirestore = await firestoreDB.add(dictionary);
+      const firestoreId = addToFirestore.id;
+      const createDictionary = { id: firestoreId, ...dictionary };
+      dispatch(actionCreate(createDictionary));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+};
 
 // reducer
 export default function reducer(state = initState, action = {}) {
   switch (action.type) {
     case LOAD: {
+      if (action.dictionary.length > 0) {
+        return { list: [...action.dictionary] };
+      }
       return state;
     }
     case CREATE: {
