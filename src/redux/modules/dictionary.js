@@ -89,6 +89,25 @@ export const actionCreateForFirestore = (dictionary) => {
   };
 };
 
+export const actionUploadForFirestore = (index, dictionary) => {
+  return async function (dispatch, getState) {
+    const targetArr = getState().dictionary.list[index];
+    const targetId = targetArr.id;
+    const newTarget = { id: targetId, ...dictionary };
+    const getDictionary = await firestoreDB.doc(targetId).update(newTarget);
+
+    dispatch(actionUpload(index, dictionary));
+  };
+};
+
+export const actionDeleteForFirestore = (index) => {
+  return async function (dispatch, getState) {
+    const targetId = getState().dictionary.list[index].id;
+    const deleteDictionary = await firestoreDB.doc(targetId).delete();
+    dispatch(actionDelete(index));
+  };
+};
+
 // reducer
 export default function reducer(state = initState, action = {}) {
   switch (action.type) {

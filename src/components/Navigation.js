@@ -6,16 +6,16 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import theme from "../theme";
 
 const Navigation = (props) => {
-  let urlName = props.location.pathname;
-  console.log(urlName);
+  let urlname = props.location.pathname;
+
   return (
     <>
-      <div>{urlName === "/" ? "Home" : "Input"}</div>
+      <div>{urlname === "/" ? "Home" : "Input"}</div>
       <IconDiv>
-        <EachLink to="/" urlName={urlName === "/"}>
+        <EachLink to="/" urlname={urlname === "/" ? "true" : "false"}>
           <HomeIcon fontSize="large" />
         </EachLink>
-        <EachLink to="/add" urlName={urlName !== "/"}>
+        <EachLink to="/add" urlname={urlname !== "/" ? "true" : "false"}>
           <AddCircleIcon fontSize="large" />
         </EachLink>
       </IconDiv>
@@ -31,7 +31,8 @@ const IconDiv = styled.div`
 `;
 
 const EachLink = styled(Link)`
-  color: ${(props) => (props.urlName ? theme.buttonColor : theme.fontColor)};
+  color: ${(props) =>
+    props.urlname === "true" ? theme.buttonColor : theme.fontColor};
 `;
 
 export default withRouter(Navigation);

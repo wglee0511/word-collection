@@ -4,15 +4,18 @@ import { Provider } from "react-redux";
 import { BrowserRouter as Router } from "react-router-dom";
 import App from "./App";
 import store from "./redux/configStore";
+import { HelmetProvider } from "react-helmet-async";
 
 ReactDOM.render(
-  <Router>
-    <Provider store={store}>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Provider>
-  </Router>,
+  <HelmetProvider>
+    <Router>
+      <Provider store={store}>
+        <React.StrictMode>
+          <App />
+        </React.StrictMode>
+      </Provider>
+    </Router>
+  </HelmetProvider>,
 
   document.getElementById("root")
 );

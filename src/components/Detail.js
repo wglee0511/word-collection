@@ -5,13 +5,18 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { useDispatch, useSelector } from "react-redux";
-import { actionDelete, actionUpload } from "../redux/modules/dictionary";
+import {
+  actionDeleteForFirestore,
+  actionUploadForFirestore,
+} from "../redux/modules/dictionary";
 import { useParams } from "react-router-dom";
 
 const Detail = (props) => {
+  // for get text
   const inputWord = useRef();
   const inputDescription = useRef();
   const inputExample = useRef();
+
   const dispatch = useDispatch();
   const index = useParams().index;
   const dictionaryList = useSelector((state) => state.dictionary.list);
@@ -23,15 +28,15 @@ const Detail = (props) => {
       description: inputDescription.current.value,
       example: inputExample.current.value,
     };
-    dispatch(actionUpload(index, dictionary));
+    dispatch(actionUploadForFirestore(index, dictionary));
     props.history.push("/");
   };
 
   const handleOnDelete = () => {
     const confirmResult = window.confirm("삭제하시겠습니까?");
     if (confirmResult) {
-      dispatch(actionDelete(index));
-      props.history.push("/");
+      dispatch(actionDeleteForFirestore(index));
+      //props.history.push("/");
     }
   };
 
