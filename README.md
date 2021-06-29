@@ -12,6 +12,7 @@
   - Styled-components
   - Redux
   - React-Redux
+  - Redux-thunk
   - React-router-dom
   - React-helmet
   - Material-ui, icons

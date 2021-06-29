@@ -1,3 +1,9 @@
+import { firestore } from "../../firebase";
+
+// dbsetup
+
+const firestoreDB = firestore.collection("dictionary");
+
 // Actions
 
 const LOAD = "dictionary/LOAD";
