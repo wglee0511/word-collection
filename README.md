@@ -19,4 +19,11 @@
   - React-Helmet
 
 - Backend
+
   - Serverless(firestore)
+
+- Hoisting
+
+  - firebase
+
+- url : https://rweet-dictionary.web.app/
