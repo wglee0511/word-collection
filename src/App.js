@@ -15,10 +15,12 @@ import { Grid } from "react-spinners-css";
 function App(props) {
   const dispatch = useDispatch();
   const isLoaded = useSelector((state) => state.dictionary.isLoaded);
+  const buttonColor = theme.buttonColor;
+
   useEffect(() => {
     dispatch(actionLoadForFirestore());
   }, [isLoaded]);
-  const buttonColor = theme.buttonColor;
+
   return (
     <Wrapper className="App">
       <MetaScript />
@@ -26,6 +28,7 @@ function App(props) {
         <NavDiv>
           <Navigation />
         </NavDiv>
+
         <Switch>
           <Route exact path="/">
             {isLoaded ? (
@@ -37,9 +40,7 @@ function App(props) {
               </LoaderWrapper>
             )}
           </Route>
-
           <Route exact path="/add" component={Add} />
-
           <Route exact path="/detail/:index" component={Detail} />
           <Redirect from="*" to="/" />
         </Switch>
