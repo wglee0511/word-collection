@@ -7,16 +7,18 @@ import Detail from "./components/Detail";
 import Navigation from "./components/Navigation";
 import theme from "./theme";
 import MetaScript from "./components/MetaScript";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { actionLoadForFirestore } from "./redux/modules/dictionary";
+import { Grid } from "react-spinners-css";
 
 function App(props) {
   const dispatch = useDispatch();
+  const isLoaded = useSelector((state) => state.dictionary.isLoaded);
   useEffect(() => {
     dispatch(actionLoadForFirestore());
-  }, []);
-
+  }, [isLoaded]);
+  const buttonColor = theme.buttonColor;
   return (
     <Wrapper className="App">
       <MetaScript />
@@ -25,8 +27,19 @@ function App(props) {
           <Navigation />
         </NavDiv>
         <Switch>
-          <Route exact path="/" component={Main} />
+          <Route exact path="/">
+            {isLoaded ? (
+              <Main />
+            ) : (
+              <LoaderWrapper>
+                <Grid color={buttonColor} style={{ margin: "0 0 20px 0" }} />
+                2초이상 지속될 경우 단어를 추가해주세요.
+              </LoaderWrapper>
+            )}
+          </Route>
+
           <Route exact path="/add" component={Add} />
+
           <Route exact path="/detail/:index" component={Detail} />
           <Redirect from="*" to="/" />
         </Switch>
@@ -60,6 +73,19 @@ const NavDiv = styled.div`
   align-items: center;
   justify-content: space-between;
   padding: 0 17px 0 17px;
+`;
+
+const LoaderWrapper = styled.div`
+  width: 100%;
+  height: 80vh;
+  background-color: ${theme.bgColor};
+  color: ${theme.fontColor};
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-size: 20px;
 `;
 
 export default App;

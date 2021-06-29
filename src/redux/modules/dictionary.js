@@ -14,19 +14,17 @@ const UPLOAD = "dictionary/UPLOAD";
 
 const DELETE = "dictionary/DELETE";
 
+const LOADER = "dictionary/LOADER";
+
 const initState = {
   list: [
     {
-      word: "dictionary",
-      description: "사전",
-      example: "사전을 본다",
-    },
-    {
-      word: "dictionary",
-      description: "사전",
-      example: "사전을 본다",
+      word: "Hello",
+      description: "안녕하세요",
+      example: "사전을 등록해 주세요",
     },
   ],
+  isLoaded: false,
 };
 
 // Action Creator
@@ -60,18 +58,25 @@ export const actionDelete = (index) => {
   };
 };
 
+export const actionIsloaded = (isLoaded) => {
+  return {
+    type: LOADER,
+    isLoaded,
+  };
+};
+
 // firestore middleware action
 
 export const actionLoadForFirestore = () => {
   return async function (dispatch) {
     let newDictionary = [];
+
     const getDictionary = await firestoreDB.get();
     getDictionary.forEach((doc) => {
       if (doc.exists) {
         newDictionary = [{ id: doc.id, ...doc.data() }, ...newDictionary];
       }
     });
-    console.log(newDictionary.length);
     dispatch(actionLoad(newDictionary));
   };
 };
@@ -79,10 +84,12 @@ export const actionLoadForFirestore = () => {
 export const actionCreateForFirestore = (dictionary) => {
   return async function (dispatch) {
     try {
+      dispatch(actionIsloaded(false));
       const addToFirestore = await firestoreDB.add(dictionary);
       const firestoreId = addToFirestore.id;
       const createDictionary = { id: firestoreId, ...dictionary };
       dispatch(actionCreate(createDictionary));
+      dispatch(actionIsloaded(false));
     } catch (error) {
       console.error(error);
     }
@@ -91,20 +98,24 @@ export const actionCreateForFirestore = (dictionary) => {
 
 export const actionUploadForFirestore = (index, dictionary) => {
   return async function (dispatch, getState) {
+    dispatch(actionIsloaded(false));
     const targetArr = getState().dictionary.list[index];
     const targetId = targetArr.id;
     const newTarget = { id: targetId, ...dictionary };
-    const getDictionary = await firestoreDB.doc(targetId).update(newTarget);
+    await firestoreDB.doc(targetId).update(newTarget);
 
     dispatch(actionUpload(index, dictionary));
+    dispatch(actionIsloaded(false));
   };
 };
 
 export const actionDeleteForFirestore = (index) => {
   return async function (dispatch, getState) {
+    dispatch(actionIsloaded(false));
     const targetId = getState().dictionary.list[index].id;
-    const deleteDictionary = await firestoreDB.doc(targetId).delete();
+    await firestoreDB.doc(targetId).delete();
     dispatch(actionDelete(index));
+    dispatch(actionIsloaded(false));
   };
 };
 
@@ -113,13 +124,13 @@ export default function reducer(state = initState, action = {}) {
   switch (action.type) {
     case LOAD: {
       if (action.dictionary.length > 0) {
-        return { list: [...action.dictionary] };
+        return { list: [...action.dictionary], isLoaded: true };
       }
-      return state;
+      return { ...state, isLoaded: true };
     }
     case CREATE: {
       const newDictionary = [action.dictionary, ...state.list];
-      return { list: newDictionary };
+      return { list: newDictionary, isLoaded: true };
     }
     case UPLOAD: {
       const newDictionary = state.list.map((each, index) => {
@@ -128,13 +139,16 @@ export default function reducer(state = initState, action = {}) {
         }
         return each;
       });
-      return { list: newDictionary };
+      return { list: newDictionary, isLoaded: true };
     }
     case DELETE: {
       const newDictionary = state.list.filter((each, index) => {
         return index !== parseInt(action.index);
       });
-      return { list: newDictionary };
+      return { list: newDictionary, isLoaded: true };
+    }
+    case LOADER: {
+      return { ...state, isLoaded: action.isLoaded };
     }
     default: {
       return state;

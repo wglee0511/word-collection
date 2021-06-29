@@ -36,7 +36,7 @@ const Detail = (props) => {
     const confirmResult = window.confirm("삭제하시겠습니까?");
     if (confirmResult) {
       dispatch(actionDeleteForFirestore(index));
-      //props.history.push("/");
+      props.history.push("/");
     }
   };
 
