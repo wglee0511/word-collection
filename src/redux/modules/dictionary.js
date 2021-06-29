@@ -76,7 +76,10 @@ export default function reducer(state = initState, action = {}) {
       return { list: newDictionary };
     }
     case DELETE: {
-      return state;
+      const newDictionary = state.list.filter((each, index) => {
+        return index !== parseInt(action.index);
+      });
+      return { list: newDictionary };
     }
     default: {
       return state;

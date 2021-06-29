@@ -5,7 +5,7 @@ import CheckBoxIcon from "@material-ui/icons/CheckBox";
 import DeleteIcon from "@material-ui/icons/Delete";
 import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import { useDispatch, useSelector } from "react-redux";
-import { actionUpload } from "../redux/modules/dictionary";
+import { actionDelete, actionUpload } from "../redux/modules/dictionary";
 import { useParams } from "react-router-dom";
 
 const Detail = (props) => {
@@ -25,6 +25,14 @@ const Detail = (props) => {
     };
     dispatch(actionUpload(index, dictionary));
     props.history.push("/");
+  };
+
+  const handleOnDelete = () => {
+    const confirmResult = window.confirm("삭제하시겠습니까?");
+    if (confirmResult) {
+      dispatch(actionDelete(index));
+      props.history.push("/");
+    }
   };
 
   return (
@@ -61,7 +69,7 @@ const Detail = (props) => {
         <SubmitButton>
           <CloudUploadIcon fontSize="large" />
         </SubmitButton>
-        <SubmitButton>
+        <SubmitButton onClick={handleOnDelete}>
           <DeleteIcon fontSize="large" />
         </SubmitButton>
       </ButtonDiv>

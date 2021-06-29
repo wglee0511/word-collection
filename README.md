@@ -15,6 +15,7 @@
   - React-router-dom
   - React-helmet
   - Material-ui, icons
+  - React-Helmet
 
 - Backend
-  - Serverless
+  - Serverless(firestore)
