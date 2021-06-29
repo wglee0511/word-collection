@@ -36,9 +36,8 @@ const Main = (props) => {
 const Wrapper = styled.div``;
 
 const BottomDiv = styled.div`
-  position: fixed;
+  position: sticky;
   height: 60px;
-  right: 200px;
   bottom: 50px;
   display: flex;
   align-items: center;
