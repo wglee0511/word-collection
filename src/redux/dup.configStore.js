@@ -1,16 +1,15 @@
-import { applyMiddleware, combineReducers } from "redux";
+import { applyMiddleware, combineReducers, createStore } from "redux";
 import dictionary from "./modules/dictionary";
 import { createBrowserHistory } from "history";
 import thunk from "redux-thunk";
-import { configureStore } from "@reduxjs/toolkit";
 
 export const history = createBrowserHistory();
 
 const middlewares = [thunk];
 
 const enhancer = applyMiddleware(...middlewares);
-const reducer = combineReducers({ dictionary: dictionary.reducer });
+const reducer = combineReducers({ dictionary });
 
-const store = configureStore({ reducer, enhancer });
+const store = createStore(reducer, enhancer);
 
 export default store;

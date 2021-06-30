@@ -1,4 +1,3 @@
-import { createSlice } from "@reduxjs/toolkit";
 import { firestore } from "../../firebase";
 
 // dbsetup
@@ -6,6 +5,12 @@ import { firestore } from "../../firebase";
 const firestoreDB = firestore.collection("dictionary");
 
 // Actions
+
+const LOAD = "dictionary/LOAD";
+const CREATE = "dictionary/CREATE";
+const UPLOAD = "dictionary/UPLOAD";
+const DELETE = "dictionary/DELETE";
+const LOADER = "dictionary/LOADER";
 
 const initState = {
   list: [
@@ -18,42 +23,45 @@ const initState = {
   isLoaded: false,
 };
 
-const dictionary = createSlice({
-  name: "dictionary",
-  initialState: initState,
-  reducers: {
-    actionLoad: (state, action) => {
-      if (action.payload.length > 0) {
-        return { list: [...action.payload], isLoaded: true };
-      }
-      return { ...state, isLoaded: true };
-    },
-    actionCreate: (state, action) => {
-      const newDict = [action.payload, ...state.list];
-      return { list: [...newDict], isLoaded: true };
-    },
-    actionUpload: (state, action) => {
-      const newDict = state.list.map((each, index) => {
-        if (index === parseInt(action.payload.index)) {
-          return action.payload.dictionary;
-        }
-        return each;
-      });
-      return { list: [...newDict], isLoaded: true };
-    },
-    actionDelete: (state, action) => {
-      const newDict = state.list.filter((each, index) => {
-        return index !== parseInt(action.payload);
-      });
-      return { list: [...newDict], isLoaded: true };
-    },
-    actionIsloaded: (state, action) => {
-      return { list: [...state.list], isLoaded: action.payloads };
-    },
-  },
-});
+// Action Creator
 
-//firestore middleware action
+export const actionLoad = (dictionary) => {
+  return {
+    type: LOAD,
+    dictionary,
+  };
+};
+
+export const actionCreate = (dictionary) => {
+  return {
+    type: CREATE,
+    dictionary,
+  };
+};
+
+export const actionUpload = (index, dictionary) => {
+  return {
+    type: UPLOAD,
+    index,
+    dictionary,
+  };
+};
+
+export const actionDelete = (index) => {
+  return {
+    type: DELETE,
+    index,
+  };
+};
+
+export const actionIsloaded = (isLoaded) => {
+  return {
+    type: LOADER,
+    isLoaded,
+  };
+};
+
+// firestore middleware action
 
 export const actionLoadForFirestore = () => {
   return async function (dispatch) {
@@ -91,12 +99,8 @@ export const actionUploadForFirestore = (index, dictionary) => {
     const targetId = targetArr.id;
     const newTarget = { id: targetId, ...dictionary };
     await firestoreDB.doc(targetId).update(newTarget);
-    const payload = {
-      index,
-      dictionary,
-    };
 
-    dispatch(actionUpload(payload));
+    dispatch(actionUpload(index, dictionary));
     dispatch(actionIsloaded(false));
   };
 };
@@ -111,12 +115,39 @@ export const actionDeleteForFirestore = (index) => {
   };
 };
 
-export const {
-  actionLoad,
-  actionCreate,
-  actionUpload,
-  actionDelete,
-  actionIsloaded,
-} = dictionary.actions;
-
-export default dictionary;
+// reducer
+export default function reducer(state = initState, action = {}) {
+  switch (action.type) {
+    case LOAD: {
+      if (action.dictionary.length > 0) {
+        return { list: [...action.dictionary], isLoaded: true };
+      }
+      return { ...state, isLoaded: true };
+    }
+    case CREATE: {
+      const newDictionary = [action.dictionary, ...state.list];
+      return { list: newDictionary, isLoaded: true };
+    }
+    case UPLOAD: {
+      const newDictionary = state.list.map((each, index) => {
+        if (index === parseInt(action.index)) {
+          return action.dictionary;
+        }
+        return each;
+      });
+      return { list: newDictionary, isLoaded: true };
+    }
+    case DELETE: {
+      const newDictionary = state.list.filter((each, index) => {
+        return index !== parseInt(action.index);
+      });
+      return { list: newDictionary, isLoaded: true };
+    }
+    case LOADER: {
+      return { ...state, isLoaded: action.isLoaded };
+    }
+    default: {
+      return state;
+    }
+  }
+}
